@@ -2,24 +2,64 @@ package main
 
 import (
 	"net/http"
-	"fmt"	
+	//"fmt"	
+	"time"
+	//"strings"
+	"log"
 	)
 	
-	
-		
-func Calc (w http.ResponseWriter, r *http.Request){
 
-	fmt.Fprintln (w,"Welcome calc!")
+var ValidPaths = []string{"/result"}
+
+func isPathV(path string) bool{
+
+	for i := 0; i<len(ValidPaths); i++{
+		if (path == ValidPaths[i]){
+			return true
+		}
+		
+	}
+	return false
+}		
+	
+	
+
+type calculator int
+
+//Handler
+func (c *calculator) ServeHTTP(w http.ResponseWriter, r *http.Request){
+
+
+
+	if (!isPathV(r.URL.Path)){
+	
+		w.WriteHeader(418)
+		w.Write([]byte("{\"code\" : 418, \"message\": invalid path}"))
+	}	
+		
 }
 	
-
+var calc calculator
+	
+func NewServer(c calculator) *http.Server{	
+	
+	return &http.Server{
+		Addr: ":8080",
+		Handler: &calc,
+		ReadTimeout: 1 * time.Second,
+		WriteTimeout: 1* time.Second,
+	
+	}	
+	
+	}
+	
+	
+	
 	
 	
 	
 func main(){
-
-	http.HandleFunc("/calc",Calc)	
-	http.ListenAndServe(":8090",nil)
-
+	
+	log.Fatal(NewServer(1).ListenAndServe())
 
 }
