@@ -27,25 +27,28 @@ func isPathV(path string) bool{
 type calculator int
 
 //Handler
-func (c *calculator) ServeHTTP(w http.ResponseWriter, r *http.Request){
-
-
+func (calculator) ServeHTTP(w http.ResponseWriter, r *http.Request){
 
 	if (!isPathV(r.URL.Path)){
-	
+		
 		w.WriteHeader(418)
 		w.Write([]byte("{\"code\" : 418, \"message\": invalid path}"))
-	}	
+	}
+	
+	
+	
+	
+		
 		
 }
 	
-var calc calculator
+
 	
 func NewServer(c calculator) *http.Server{	
 	
 	return &http.Server{
 		Addr: ":8080",
-		Handler: &calc,
+		Handler: c,
 		ReadTimeout: 1 * time.Second,
 		WriteTimeout: 1* time.Second,
 	
