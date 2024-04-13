@@ -1,6 +1,10 @@
 package main
 
-import "math"
+import (
+	"math"
+
+
+)
 
 var calcs = map[string]func(x float64, y float64) float64{
 
@@ -40,17 +44,6 @@ func pot(x float64, y float64) float64{
 }
 
 func raiz(x float64, y float64) float64{
-	return math.Sqrt(x)
+	return math.Pow(y,1/x)
 }
-
-
-
-
-
-
-
-
-
-
-
 
