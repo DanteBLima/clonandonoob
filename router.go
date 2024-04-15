@@ -43,6 +43,11 @@ if r.Method != http.MethodGet{
 
 }
 
+if (!isPathV(r.URL.Path)) {
+		w.WriteHeader(404)
+		w.Write([]byte("{\"code\": 404, \"error\": not found}"))
+        return
+	}
 
 
 		
@@ -56,7 +61,7 @@ divide := strings.Fields(query)
 
 
 if len(divide) != 3{
-
+	w.WriteHeader(http.StatusBadRequest)
 	fmt.Fprintf(w, "Invalid format. Try: number operator number")
 	return
 
@@ -67,7 +72,7 @@ x1, err1:= strconv.ParseFloat(divide[0],64)
 y1, err2:= strconv.ParseFloat(divide[2],64)
 
 if err1 != nil || err2 != nil{
-	http.Error(w, err1.Error(),http.StatusBadRequest)
+	http.Error(w,"Error, invalid number type",http.StatusBadRequest)
 	return
 }
 
