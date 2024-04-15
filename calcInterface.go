@@ -25,6 +25,7 @@ func (a Arith) Calcular()func(x float64, y float64) (float64, error){
 
 return func(x float64, y float64)(float64, error){
 	return 0, errors.New("Invalid operand request!")
+	
 }
 
 

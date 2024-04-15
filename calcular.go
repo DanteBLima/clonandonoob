@@ -9,7 +9,7 @@ import (
 var calcs = map[string]func(x float64, y float64) float64{
 
 	"sum": sum,
-	"+"  : sum,
+	"%+"  : sum,
 	"sub": sub,
 	"-"  : sub,
 	"mul": mult,
@@ -19,7 +19,7 @@ var calcs = map[string]func(x float64, y float64) float64{
 	"pow": pot,
 	"^"  : pot,
 	"rot": raiz,
-	"&"  : raiz,
+	"%&"  : raiz,
 }
 
 func sum(x float64, y float64) float64{

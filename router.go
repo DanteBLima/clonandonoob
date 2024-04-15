@@ -7,6 +7,10 @@ import (
 	"strings"
 	"fmt"
 	"time"
+	//"log"
+	//"net/url"
+	"encoding/json"
+	
 )
 
 
@@ -32,17 +36,32 @@ func isPathV(path string) bool{
 type Calculator int
 
 func (Calculator) ServeHTTP(w http.ResponseWriter, r *http.Request){
+
+if r.Method != http.MethodGet{
+	http.Error(w,"code: 404,  error:  not found", http.StatusNotFound)
+	return 
+
+}
+
+
+
 		
 
 query := r.URL.Query().Get("op")
+
+
+
+
 divide := strings.Fields(query)
+
 
 if len(divide) != 3{
 
-	fmt.Fprintf(w, "Invalid format. :number operator number")
+	fmt.Fprintf(w, "Invalid format. Try: number operator number")
 	return
 
 }
+
 
 x1, err1:= strconv.ParseFloat(divide[0],64)
 y1, err2:= strconv.ParseFloat(divide[2],64)
@@ -67,7 +86,18 @@ if err != nil{
 	http.Error(w, err.Error(),http.StatusBadRequest)
 
 }
-fmt.Fprintf(w,"Result: %.2f",result)
+
+res := Jsonn{
+
+	Result: result,
+	Operation: divide,
+
+}
+
+w.WriteHeader(http.StatusOK)
+
+encode := json.NewEncoder(w)
+encode.Encode(res)
 
 
 
